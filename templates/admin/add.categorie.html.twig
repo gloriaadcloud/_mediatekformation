@@ -1,6 +1,10 @@
 {% extends "baseadmin.html.twig" %}
+
+{% block page_title %}Gestion des catégories{% endblock %}
 {% block body %}
+    <br >
     <h2>Nouvelle categorie :</h2>
+    <br >
     {{include('_categorie.form.html.twig')  }}
 {% endblock %}
 

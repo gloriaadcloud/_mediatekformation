@@ -63,10 +63,17 @@ class adminPlaylistsController extends AbstractController
         ]); 
     }
         
-    #[Route('/admin/playlists/delete/{id}', name: 'delete.playlist')]
+    #[Route('/admin/playlists/delete/{id}', name:'delete.playlist')]
     public function delete(int $id): Response
     {
+        $formation=$this->formationRepository->findBy(['playlist'=>$id]);
+        
+        foreach($formation as $formation){
+            $this->formationRepository->remove($formation);
+        }
+        
         $playlist= $this->playlistRepository->find($id);
+        //dd($playlist->getFormations());
         if($playlist){
             $this->playlistRepository->remove($playlist);
             
