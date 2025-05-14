@@ -19,8 +19,8 @@ class UserFixture extends Fixture
     public function load(ObjectManager $manager): void
     {
         $user = new User();
-        $user->setUsername("user");
-        $plaintextPassword = "password";
+        $user->setUsername("gloria");
+        $plaintextPassword = "btssio2025";
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user,
             $plaintextPassword

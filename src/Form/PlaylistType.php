@@ -13,7 +13,14 @@ class PlaylistType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
+            ->add('name', TextType::class, [
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Le nom de la playlist ne peut pas être vide'
+                    ])
+                ],
+            ])
             ->add('description')
                 
             ->add('submit', SubmitType::class, [

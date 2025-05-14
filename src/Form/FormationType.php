@@ -30,6 +30,7 @@ class FormationType extends AbstractType
                 'class' => Categorie::class,
                 'choice_label' => 'name',
                 'multiple' => true,
+                'required' => false,
             ])
             ->add('publishedAt', DateType::class, [
                 'widget' => 'single_text',

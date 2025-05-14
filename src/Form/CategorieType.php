@@ -16,11 +16,7 @@ class CategorieType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('formations', EntityType::class, [
-                'class' => Formation::class,
-                'choice_label' => 'title',
-                'multiple' => true,
-            ])
+            
             ->add('submit', SubmitType::class, [
                 'label' => 'Enregistrer'
             ])
