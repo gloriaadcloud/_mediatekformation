@@ -15,11 +15,7 @@ class PlaylistType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Le nom de la playlist ne peut pas être vide'
-                    ])
-                ],
+               
             ])
             ->add('description')
                 
