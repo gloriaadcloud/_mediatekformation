@@ -84,3 +84,78 @@ Le chemin des images (des 2 tailles) n'est pas mémorisé dans la BDD car il peu
 - Dans phpMyAdmin, se connecter à MySQL en root sans mot de passe et créer la BDD 'mediatekformation'.<br>
 - Récupérer le fichier mediatekformation.sql en racine du projet et l'utiliser pour remplir la BDD (si vous voulez mettre un login/pwd d'accès, il faut créer un utilisateur, lui donner les droits sur la BDD et il faut le préciser dans le fichier ".env" en racine du projet).<br>
 - De préférence, ouvrir l'application dans un IDE professionnel. L'adresse pour la lancer est : http://localhost/mediatekformation/public/index.php<br>
+
+## Fonctionnalité de tri
+![alt text](image.png)
+Nous avons ajouter un cas Nbformations pour permettre le tri du nombre de formation trouvé
+![alt text](image-1.png)
+Voici la fonction du repository qui nous permet de recuperer le nombre de formations en fonction de la playlist
+et voici le rendu que nous avons avec le tri asc et le tri desc
+![alt text](image-2.png)
+![alt text](image-3.png)
+
+
+## Modifier les formations ajout , suppression , modification
+Pour realiser cela nous avons d'abord creer les routes dans le controlleur adminFormationsController.php
+#[Route('/admin/delete/{id}', name: 'delete.formation')]
+#[Route('/admin/edit/{id}', name: 'edit.formation')]
+#[Route('/admin/add/', name: 'add.formation')]
+
+Pour les formulaire d'ajout et de modifications nous avons cree un buildform present dans Form FormationType nous permettant de designer certains champ obligatoire et de mettre en place les elements au niveau
+de la vue. Au niveau de la vue de formation present dans admin.formation nous avons ajouter un bouton pour nous rediriger vers la page d'ajout de formation un bouton pour modifier et un bouton pour supprimer
+![alt text](image-4.png)
+voici la page d'ajout d'une formation 
+![alt text](image-5.png)
+Voici la page de modification d'une formation 
+
+## Modifier les playlist ajout , suppression , modification
+
+Pour realiser cela nous avons d'abord creer les routes dans le controlleur adminPlaylistsController.php
+#[Route('/admin/playlists/edit/{id}', name:'edit.playlist')]
+#[Route('/admin/playlists/delete/{id}', name:'delete.playlist')]
+#[Route('/admin/playlists/add/', name:'add.playlist')]
+
+
+Pour les formulaire d'ajout et de modifications nous avons cree un buildform present dans Form PlaylistType nous permettant de designer certains champ obligatoire et de mettre en place les elements au niveau
+de la vue. Au niveau de la vue de playlist present dans admin.playlist nous avons ajouter un bouton pour nous rediriger vers la page d'ajout de playlist un bouton pour modifier et un bouton pour supprimer
+![alt text](image-6.png)
+Voici la page d'ajout d'une playlist
+![alt text](image-7.png)
+Voici la page de modification d'une playlist
+
+
+## Modifier les categories ajout , suppression
+Pour realiser cela nous avons d'abord creer les routes dans le controlleur adminCategoriesController.php pour cette fois ci afficher la liste des categories et ensuite ajoute et supprimer
+#[Route('/admin/categories', name: 'admin.categories')]
+#[Route('/admin/categories/delete/{id}', name: 'delete.categorie')]
+#[Route('/admin/categories/add', name: 'add.categorie')]
+
+Pour les formulaire d'ajout et de modifications nous avons cree un buildform present dans Form CategorieType nous permettant de designer certains champ  et de mettre en place les elements au niveau
+de la vue. Au niveau de la vue de category present dans admin.category nous avons ajouter un bouton pour nous rediriger vers la page d'ajout de category un bouton pour modifier et un bouton pour supprimer
+![alt text](image-8.png)
+Voici la page de la liste des categories
+![alt text](image-9.png)
+Voici la page d ajout d'une categorie
+
+
+## Les test de compatibilité 
+
+Les autres test sont dans le dossier test 
+Le formationTest nous permet de test la methode qui retourne la date au format string
+Dans le dossier Validations nous avons le tests d'integration sur les regles de validations
+Dans le dossier Repository nous avons le test d'integration sur les repository
+Dans le dossier Controller nous avons le tests fonctionnel
+A la racine du projet nous avons un fichier Testmediatek.py qui nous permet de faire le test de compatibilité de navigateurs.
+Pour reussir cela il faut deja avoir installer python sur sa machine et la bibliotheque selenium 
+Ensuite il suffit de se placer a la racine du projet et de lancer la commande suivante dans le terminal
+python Testmediatek.py et le test va se lancer ouvrir un navigateur et parcourir les pages et prendre des captures d'ecran de chaque page
+
+
+## Deploiement
+
+Le site est deployer sur O2swtich et est accessible sur le https://mediatekformationprod.gloriaadonsou.com/
+
+Pour la configuration automatique de la BD nous avons creer un script backup_bd.php qui nous permet d'exporter la base de donnée dans un dosser backups sur le serveur. 
+Ensuite sur le serveur nous avons effectuer une tache cron lié a ce script pour qu'il s'execute chaque jour pour nous creer une sauvegarde de notre base de donnée dans ce dossier.
+
+Pour le depoliement continue nous avons creer une clé ssh sur notre machine et nous avons creer un fichier MakeFile lié a notre machine nous permettant a chaque push sur notre machine de faire un makeFile pour mettre a jour notre projet en ligne.

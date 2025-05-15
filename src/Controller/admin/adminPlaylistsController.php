@@ -19,6 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class adminPlaylistsController extends AbstractController
 {
+    private const VIEW_PLAYLISTS = "admin/admin.playlists.html.twig";
+
     /**
      * 
      * @var PlaylistRepository
@@ -117,5 +119,56 @@ class adminPlaylistsController extends AbstractController
             'formplaylist' => $formPlaylist->createView()
         ]);
     }   
+
+    #[Route('/admin/playlists/tri/{champ}/{ordre}', name: 'adminplaylists.sort')]
+    public function sort($champ, $ordre): Response{
+        switch($champ){
+            case "name":
+                $playlists = $this->playlistRepository->findAllOrderByName($ordre);
+                break;
+            
+            case "NbFormations":       
+                $playlists = $this->playlistRepository->findAllOrderByNbFormations($ordre);
+                break;
+            
+            case "":
+                $playlists = $this->playlistRepository->findAllOrderBy($ordre);
+                break;
+            default:
+            $playlists = $this->playlistRepository->findAll();
+            break;
+                
+        }
+        $categories = $this->categorieRepository->findAll();
+        return $this->render(self::VIEW_PLAYLISTS, [
+            'playlists' => $playlists,
+            'categories' => $categories            
+        ]);
+    }          
+
+    #[Route('/admin/playlists/recherche/{champ}/{table}', name: 'adminplaylists.findallcontain')]
+    public function findAllContain($champ, Request $request, $table=""): Response{
+        $valeur = $request->get("recherche");
+        $playlists = $this->playlistRepository->findByContainValue($champ, $valeur, $table);
+        $categories = $this->categorieRepository->findAll();
+        return $this->render(self::VIEW_PLAYLISTS, [
+            'playlists' => $playlists,
+            'categories' => $categories,            
+            'valeur' => $valeur,
+            'table' => $table
+        ]);
+    }  
+
+    #[Route('/admin/playlists/playlist/{id}', name: 'adminplaylists.showone')]
+    public function showOne($id): Response{
+        $playlist = $this->playlistRepository->find($id);
+        $playlistCategories = $this->categorieRepository->findAllForOnePlaylist($id);
+        $playlistFormations = $this->formationRepository->findAllForOnePlaylist($id);
+        return $this->render("admin/playlist.html.twig", [
+            'playlist' => $playlist,
+            'playlistcategories' => $playlistCategories,
+            'playlistformations' => $playlistFormations
+        ]);        
+    }
         
 }
